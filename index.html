@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Игрогид</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <!--
+      Need a visual blank slate?
+      Remove all code in `styles.css`!
+    -->
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="script.js"></script>
+  </head>
+  <body>
+    <nav>
+      <a href="/" aria-current="page">Home</a>
+      <a href="/page2.html">Other page</a>
+    </nav>
+    <main>
+      <h1></h1>
+    </main>
+  </body>
+</html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Игрогид</title>
+<style>
+:root{--bg:#f3f0fa;--ink:#1d1533;--mute:#5d5478;--card:#fff;--line:#d9d2ec;--accent:#5b2bd9;--accent2:#ff5c8a;--chip:#e7e0fa;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#150f26;--ink:#f1ecff;--mute:#a99fc9;--card:#211838;--line:#382b5c;--accent:#9d7bff;--accent2:#ff7da3;--chip:#2c2148}}
+:root[data-theme="dark"]{--bg:#150f26;--ink:#f1ecff;--mute:#a99fc9;--card:#211838;--line:#382b5c;--accent:#9d7bff;--accent2:#ff7da3;--chip:#2c2148}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;line-height:1.5}
+.wrap{max-width:960px;margin:0 auto;padding:20px 16px 48px}
+h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(2.2rem,8vw,3.6rem);margin:8px 0 4px;letter-spacing:-.02em}
+h1 span{color:var(--accent2)}
+.sub{color:var(--mute);margin:0 0 20px;max-width:52ch}
+.tools{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+input[type=search]{flex:1 1 220px;padding:12px 14px;border:2px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);font:inherit}
+input:focus,button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.chip{border:0;background:var(--chip);color:var(--ink);padding:8px 14px;border-radius:999px;font:inherit;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--accent);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;text-align:left;cursor:pointer;color:inherit;font:inherit;display:flex;flex-direction:column;gap:6px}
+.card:hover{border-color:var(--accent)}
+.card h3{margin:0;font-family:Georgia,serif;font-size:1.25rem}
+.meta{color:var(--mute);font-size:.88rem}
+.tag{align-self:flex-start;background:var(--chip);padding:2px 10px;border-radius:999px;font-size:.8rem}
+.empty{grid-column:1/-1;text-align:center;color:var(--mute);padding:40px 0}
+dialog{border:0;border-radius:20px;padding:0;max-width:560px;width:calc(100% - 24px);background:var(--card);color:var(--ink)}
+dialog::backdrop{background:rgba(10,5,25,.6)}
+.d{padding:22px}
+.d h2{font-family:Georgia,serif;margin:0 0 4px;font-size:1.7rem}
+.d h4{margin:16px 0 4px}
+.d ul{margin:0;padding-left:20px}
+.close{float:right;border:0;background:var(--chip);color:var(--ink);border-radius:10px;padding:6px 12px;font:inherit;cursor:pointer}
+.switch{display:flex;align-items:center;gap:10px;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 14px 6px 8px;font:inherit;cursor:pointer}
+.track{position:relative;width:44px;height:24px;border-radius:999px;background:var(--line);transition:background .2s}
+.knob{position:absolute;top:3px;left:3px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .2s}
+.switch[aria-checked=true] .track{background:var(--accent)}
+.switch[aria-checked=true] .knob{transform:translateX(20px)}
+@media (prefers-reduced-motion:reduce){.track,.knob{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Игро<span>гид</span></h1>
+<p class="sub">Подборка игр с кратким описанием, советами для старта и списком платформ. Ищите по названию или выбирайте жанр.</p>
+<div class="tools">
+<input type="search" id="q" placeholder="Найти игру" aria-label="Поиск игры">
+<button class="switch" id="theme" type="button" role="switch" aria-checked="false"><span class="track"><span class="knob"></span></span><span id="tl">Светлая тема</span></button>
+</div>
+<div class="chips" id="chips"></div>
+<div class="grid" id="grid"></div>
+</div>
+<dialog id="dlg"></dialog>
+<script>
+const games=[
+{n:"The Witcher 3: Wild Hunt",g:"РПГ",y:2015,p:"ПК, PS, Xbox, Switch",d:"Открытый мир, сильный сюжет и множество побочных историй.",t:["Прокачивайте знаки и алхимию рано","Читайте бестиарий перед охотой на монстров","Не пропускайте побочные квесты: они часто лучше основных"]},
+{n:"Hades",g:"Рогалик",y:2020,p:"ПК, PS, Xbox, Switch",d:"Динамичный экшен с побегом из подземного мира и историей, которая растёт с каждой попыткой.",t:["Пробуйте разное оружие, у каждого свой стиль","Тратьте зеркало на постоянные улучшения","Смерть здесь часть сюжета, не бойтесь проигрывать"]},
+{n:"Stardew Valley",g:"Симулятор",y:2016,p:"ПК, консоли, мобильные",d:"Уютная ферма, дружба с жителями города и исследование пещер.",t:["Первую весну вложите в картошку","Дарите жителям любимые подарки","Следите за энергией и не работайте до упаду"]},
+{n:"Dark Souls III",g:"Экшен",y:2016,p:"ПК, PS, Xbox",d:"Сложные бои, мрачный мир и награда за терпение.",t:["Изучайте атаки врагов, прежде чем нападать","Щит спасает на первых часах","Используйте костры для восстановления"]},
+{n:"Minecraft",g:"Песочница",y:2011,p:"ПК, консоли, мобильные",d:"Бесконечный мир, где можно строить, выживать и исследовать.",t:["В первую ночь укройтесь в простом убежище","Ищите алмазы на низких уровнях","Стройте рядом с источником воды"]},
+{n:"Civilization VI",g:"Стратегия",y:2016,p:"ПК, консоли, мобильные",d:"Пошаговая стратегия о развитии цивилизации от древности до космоса.",t:["Расширяйтесь быстро в начале партии","Держите баланс между наукой и культурой","Не забывайте про защиту границ"]},
+{n:"Portal 2",g:"Головоломка",y:2011,p:"ПК, PS3, Xbox 360",d:"Умные головоломки с порталами, отличный юмор и кооператив.",t:["Смотрите на всю комнату, прежде чем стрелять","Сохраняйте импульс при прыжках","Кооператив проходите с другом"]},
+{n:"Elden Ring",g:"РПГ",y:2022,p:"ПК, PS, Xbox",d:"Огромный открытый мир от создателей Dark Souls.",t:["Если босс слишком силён, уйдите исследовать","Вызывайте духов-помощников","Улучшайте кузнечными камнями оружие"]},
+{n:"Celeste",g:"Платформер",y:2018,p:"ПК, консоли",d:"Точный платформер о восхождении на гору с режимом помощи.",t:["Экраны короткие, повторяйте без спешки","Включите режим помощи, если нужно","Собирайте землянику по желанию"]},
+{n:"Football Manager",g:"Стратегия",y:2024,p:"ПК, консоли",d:"Управление футбольным клубом: трансферы, тактика и молодёжь.",t:["Выберите простую тактику и придерживайтесь её","Следите за форой физформы игроков","Растите молодёжь для трансферов"]},
+{n:"Grand Theft Auto V",g:"Экшен",y:2013,p:"ПК, PS, Xbox",d:"Три героя, огромный Лос-Сантос и множество занятий вне сюжета.",t:["Сохраняйтесь перед крупными ограблениями","Вкладывайте деньги в акции по сюжетным подсказкам","Исследуйте карту, там много секретов"]},
+{n:"Red Dead Redemption 2",g:"Экшен",y:2018,p:"ПК, PS, Xbox",d:"Вестерн с живым миром, охотой и глубокой историей банды.",t:["Ухаживайте за лошадью, она спасает жизнь","Охотьтесь и продавайте шкуры","Не торопитесь: мир лучше познавать неспешно"]},
+{n:"Cyberpunk 2077",g:"РПГ",y:2020,p:"ПК, PS, Xbox",d:"Ночной город будущего, кибернетика и выбор, влияющий на концовку.",t:["Вкладывайтесь в один-два навыка","Берите побочные заказы, они раскрывают город","Обновите игру до последней версии"]},
+{n:"The Elder Scrolls V: Skyrim",g:"РПГ",y:2011,p:"ПК, PS, Xbox, Switch",d:"Северный открытый мир с драконами, гильдиями и свободой в развитии героя.",t:["Развивайте навыки, которыми пользуетесь","Не спешите в основной квест","Собирайте травы для зелий"]},
+{n:"Terraria",g:"Песочница",y:2011,p:"ПК, консоли, мобильные",d:"Двухмерная песочница с копанием, крафтом и боссами.",t:["Стройте дом, чтобы приходили жители","Копайте вглубь для лучших материалов","Готовьтесь к боссу заранее"]},
+{n:"Among Us",g:"Кооператив",y:2018,p:"ПК, консоли, мобильные",d:"Социальная игра на выявление предателя на космическом корабле.",t:["Следите, кто где был","Не обвиняйте без причины","Играйте в компании друзей"]},
+{n:"Fortnite",g:"Шутер",y:2017,p:"ПК, консоли, мобильные",d:"Королевская битва со строительством и постоянными обновлениями.",t:["Высаживайтесь в тихих местах в начале","Тренируйте строительство в творческом режиме","Всегда держите запас материалов"]},
+{n:"Counter-Strike 2",g:"Шутер",y:2023,p:"ПК",d:"Командный тактический шутер о раундах и точной стрельбе.",t:["Прицельтесь на уровень головы","Общайтесь с командой","Учите раскидки гранат на картах"]},
+{n:"Dota 2",g:"МОБА",y:2013,p:"ПК",d:"Командная стратегия 5 на 5 с сотней героев.",t:["Начните с простых героев","Учитесь фармить золото","Смотрите на миникарту"]},
+{n:"League of Legends",g:"МОБА",y:2009,p:"ПК",d:"Командная битва, где важны роли, контроль карты и взаимодействие.",t:["Выберите одну роль и освойте её","Не гонитесь за убийствами ради убийств","Ставьте варды для обзора"]},
+{n:"The Legend of Zelda: Breath of the Wild",g:"Приключение",y:2017,p:"Switch, Wii U",d:"Свободное исследование Хайрула с физикой и решением головоломок.",t:["Лазайте, где хотите, мир это позволяет","Оружие ломается, носите запас","Готовьте еду для восстановления"]},
+{n:"God of War",g:"Экшен",y:2018,p:"ПК, PS",d:"История Кратоса и его сына в северной мифологии.",t:["Улучшайте броню и топор","Используйте помощь сына в бою","Проверяйте побочные регионы"]},
+{n:"Hollow Knight",g:"Платформер",y:2017,p:"ПК, консоли",d:"Атмосферная метроидвания в подземном королевстве насекомых.",t:["Покупайте карту у картографа","Собирайте оберегов побольше","Возвращайтесь в закрытые места позже"]},
+{n:"Undertale",g:"РПГ",y:2015,p:"ПК, консоли",d:"Необычная РПГ, где можно пройти игру без убийств.",t:["Пробуйте разговаривать с врагами","Сохранения влияют на историю","Проходите несколько раз ради разных концовок"]},
+{n:"Cuphead",g:"Платформер",y:2017,p:"ПК, консоли",d:"Сложная игра в стиле мультфильмов 1930-х с упором на боссов.",t:["Изучайте паттерны боссов","Играйте в кооперативе с другом","Тренируйтесь в простом режиме"]},
+{n:"DOOM Eternal",g:"Шутер",y:2020,p:"ПК, консоли",d:"Стремительный шутер, где нужно постоянно двигаться и менять оружие.",t:["Используйте пилу для патронов","Добивания восстанавливают здоровье","Не стойте на месте"]},
+{n:"Resident Evil 4",g:"Хоррор",y:2023,p:"ПК, консоли",d:"Ремейк культового хоррора с напряжённой стрельбой и головоломками.",t:["Экономьте патроны","Улучшайте оружие у торговца","Используйте нож для ближнего боя"]},
+{n:"Baldur's Gate 3",g:"РПГ",y:2023,p:"ПК, PS, Xbox",d:"Глубокая партийная РПГ по правилам D&D с большим выбором решений.",t:["Часто сохраняйтесь","Говорите со спутниками на привалах","Экспериментируйте с классами и навыками"]},
+{n:"Factorio",g:"Стратегия",y:2020,p:"ПК, Switch",d:"Постройка и автоматизация заводов, которые растут вместе с вами.",t:["Автоматизируйте всё, что делаете вручную","Планируйте место для расширения","Защищайте фабрику от нападений"]},
+{n:"Rocket League",g:"Спорт",y:2015,p:"ПК, консоли",d:"Футбол на машинах с быстрыми матчами и точной механикой.",t:["Осваивайте полёт и отскоки постепенно","Тренируйтесь в свободной игре","Не летите за мячом всей командой"]}
+];
+const genres=["Все",...new Set(games.map(x=>x.g))];
+let cur="Все";
+const $=s=>document.querySelector(s);
+function chips(){$("#chips").innerHTML=genres.map(g=>`<button class="chip" type="button" aria-pressed="${g===cur}" data-g="${g}">${g}</button>`).join("")}
+function draw(){
+const q=$("#q").value.trim().toLowerCase();
+const list=games.filter(x=>(cur==="Все"||x.g===cur)&&x.n.toLowerCase().includes(q));
+$("#grid").innerHTML=list.length?list.map(x=>`<button class="card" type="button" data-n="${x.n}"><span class="tag">${x.g}</span><h3>${x.n}</h3><span class="meta">${x.y} · ${x.p}</span><span>${x.d}</span></button>`).join(""):`<div class="empty">Ничего не найдено. Измените запрос или выберите другой жанр.</div>`}
+$("#chips").addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b)return;cur=b.dataset.g;chips();draw()});
+$("#q").addEventListener("input",draw);
+$("#grid").addEventListener("click",e=>{const c=e.target.closest(".card");if(!c)return;const x=games.find(v=>v.n===c.dataset.n);
+const d=$("#dlg");d.innerHTML=`<div class="d"><button class="close" type="button">Закрыть</button><h2>${x.n}</h2><div class="meta">${x.g} · ${x.y} · ${x.p}</div><p>${x.d}</p><h4>Советы для старта</h4><ul>${x.t.map(t=>`<li>${t}</li>`).join("")}</ul></div>`;
+d.showModal();d.querySelector(".close").onclick=()=>d.close()});
+$("#dlg").addEventListener("click",e=>{if(e.target.id==="dlg")e.target.close()});
+function setTheme(dark){document.documentElement.dataset.theme=dark?"dark":"light";const b=$("#theme");b.setAttribute("aria-checked",dark);$("#tl").textContent=dark?"Тёмная тема":"Светлая тема"}
+$("#theme").addEventListener("click",()=>setTheme($("#theme").getAttribute("aria-checked")!=="true"));
+setTheme(matchMedia("(prefers-color-scheme:dark)").matches);
+chips();draw();
+</script>
+</body>
+</html>
